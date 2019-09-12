@@ -48,7 +48,8 @@ export class KeyFinder {
                 }
 
                 if (difference < 20) {
-                    bestCandidates[i][Alphabet.getLetterForNumber(j)] = difference;
+                    let decodedLetter = Math.abs(j - 26);
+                    bestCandidates[i][Alphabet.getLetterForNumber(decodedLetter)] = difference;
                 }
             }
 

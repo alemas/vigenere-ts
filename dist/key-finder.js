@@ -35,13 +35,14 @@ var KeyFinder = /** @class */ (function () {
                 for (var char in keyPos) {
                     // Frequência que aparece o caracter nessa posição da chave pelo texto
                     var freq = keyPos[char] / totalLetters * 100;
-                    var shiftedChar = alphabet_1.Alphabet.getLetterForNumber((j) % alphabet_1.Alphabet.alphabetLength);
+                    var shiftedChar = alphabet_1.Alphabet.getLetterForNumber((alphabet_1.Alphabet.getNumberForLetter(char) + j) % alphabet_1.Alphabet.alphabetLength);
                     // Frequência que aparece o caracter na língua portuguesa
                     var langFreq = langFrequencies[shiftedChar];
                     difference += Math.abs(freq - langFreq);
                 }
                 if (difference < 20) {
-                    bestCandidates[i][alphabet_1.Alphabet.getLetterForNumber(j)] = difference;
+                    var decodedLetter = Math.abs(j - 26);
+                    bestCandidates[i][alphabet_1.Alphabet.getLetterForNumber(decodedLetter)] = difference;
                 }
             }
         }
