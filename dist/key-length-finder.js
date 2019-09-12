@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var KeyLengthFinder = /** @class */ (function () {
+var KeyLengthFinder = (function () {
     function KeyLengthFinder() {
     }
     KeyLengthFinder.findKeyLengh = function (text) {
@@ -34,7 +34,7 @@ var KeyLengthFinder = /** @class */ (function () {
         }
         // Array de retorno
         var result = [];
-        // Mapeia o dicionário para um array e subStrings
+        // Mapeia o dicionário para um array de subStrings
         for (var key in subStrings)
             // Descarta as subStrings com apenas 1 ocorrência
             if (subStrings[key].positions.length > 1)
@@ -65,7 +65,8 @@ var KeyLengthFinder = /** @class */ (function () {
         for (var gcd in distances) {
             result.push({ length: +gcd, chance: distances[gcd] });
         }
-        return result.sort(function (d1, d2) { return d2.chance - d1.chance; }).filter(function (d) { return d.chance > 2; });
+        // Retorna os 5 melhores candidatos para tamanho de chave
+        return result.sort(function (d1, d2) { return d2.chance - d1.chance; }).filter(function (d) { return d.chance > 10; }).slice(0, 4);
     };
     // Encontra o máximo divisor comum entre 2 valores
     KeyLengthFinder.greatestCommonDivisor = function (a, b) {

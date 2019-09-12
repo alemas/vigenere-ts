@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var alphabet_1 = require("./alphabet");
-var Decoder = /** @class */ (function () {
+var Decoder = (function () {
     function Decoder() {
     }
     // Retorna o texto decodificado com a chave informada.

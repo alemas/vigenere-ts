@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var Alphabet = /** @class */ (function () {
+var Alphabet = (function () {
     function Alphabet() {
     }
     //Retorna o valor numérico correspondente à letra desejada

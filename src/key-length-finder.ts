@@ -54,7 +54,7 @@ export class KeyLengthFinder {
         // Array de retorno
         let result:SubString[] = [];
 
-        // Mapeia o dicionário para um array e subStrings
+        // Mapeia o dicionário para um array de subStrings
         for (const key in subStrings)
             // Descarta as subStrings com apenas 1 ocorrência
             if (subStrings[key].positions.length > 1)
@@ -92,7 +92,8 @@ export class KeyLengthFinder {
             result.push({length: +gcd, chance:distances[gcd]});
         }
 
-        return result.sort((d1, d2) => d2.chance - d1.chance).filter(d => d.chance > 2);
+        // Retorna os 5 melhores candidatos para tamanho de chave
+        return result.sort((d1, d2) => d2.chance - d1.chance).filter(d => d.chance > 10).slice(0, 4);
     }
 
     // Encontra o máximo divisor comum entre 2 valores

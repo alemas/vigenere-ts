@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var LetterFrequencies = /** @class */ (function () {
+var LetterFrequencies = (function () {
     function LetterFrequencies() {
     }
     LetterFrequencies.portuguese = { 'a': 14.634, 'b': 1.043, 'c': 3.882, 'd': 4.992, 'e': 12.570, 'f': 1.023, 'g': 1.303,
