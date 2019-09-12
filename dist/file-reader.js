@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var fs = require("fs");
-var FileReader = (function () {
+var FileReader = /** @class */ (function () {
     function FileReader() {
     }
     // Retorna uma string contendo o texto do arquivo especificado por 'path'

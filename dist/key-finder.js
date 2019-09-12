@@ -2,7 +2,11 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var alphabet_1 = require("./alphabet");
 var letter_frequencies_1 = require("./letter-frequencies");
-var KeyFinder = (function () {
+// Classe responsável por encontrar os caracteres mais prováveis da chave.
+// O texto é dividido em x partes, sendo x o tamanho da chave, e em cada parte
+// é feita uma comparação de frequência dos caracteres com as frequências da
+// língua portuguesa
+var KeyFinder = /** @class */ (function () {
     function KeyFinder() {
     }
     KeyFinder.findKey = function (text, keyLength) {
@@ -26,7 +30,7 @@ var KeyFinder = (function () {
             var char = text.charAt(i);
             charOccurrences[i % keyLength][char]++;
         }
-        // Número total de characteres que cada letra da chave cifrou
+        // Número total de caracteres que cada letra da chave cifrou
         var totalLetters = text.length / keyLength;
         // Array com as frequências de cada letra na língua portuguesa
         var langFrequencies = letter_frequencies_1.LetterFrequencies.portuguese;
@@ -34,6 +38,9 @@ var KeyFinder = (function () {
         for (var i = 0; i < keyLength; i++) {
             // Dicionário contendo as ocorrências de cada caracter naquela letra
             var keyPos = charOccurrences[i];
+            // Calcula-se a frequência de cada caracter naquela parte do texto e compara-se com as frequências de
+            // cada caracter na língua portuguesa deslocados de 0 a 25 posições.
+            // Aquela comparação que houver menor diferença de frequências se torna candidato de caracter da chave
             // j serve como o deslocamento para cada letra do alfabeto
             for (var j = 0; j < alphabet_1.Alphabet.alphabetLength; j++) {
                 // Representa a soma de diferenças entre a frequência das letras no texto e na língua portuguesa

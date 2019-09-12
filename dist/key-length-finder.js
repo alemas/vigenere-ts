@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var KeyLengthFinder = (function () {
+var KeyLengthFinder = /** @class */ (function () {
     function KeyLengthFinder() {
     }
     KeyLengthFinder.findKeyLengh = function (text) {
