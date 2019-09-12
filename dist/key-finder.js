@@ -1,55 +1,51 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var alphabet_1 = require("./alphabet");
+var letter_frequencies_1 = require("./letter-frequencies");
 var KeyFinder = /** @class */ (function () {
     function KeyFinder() {
     }
     KeyFinder.findKey = function (text, keyLength) {
-        // let subStrings:string[] = [];
-        // let subString = "";
         // Array de dicionários onde cada posição representa uma letra da chave
         // e cada dicionário representa o número de ocorrências de cada caracter
         var charOccurrences = [];
-        // Array de 
-        var higherOccurrences = [];
+        // Array para guardar os melhores cadidatos para cada
+        // letra da chave
+        var bestCandidates = [];
+        // Inicia charOccurrences com todas letras e número de ocorrências em 0
         for (var i = 0; i < keyLength; i++) {
             charOccurrences[i] = {};
-            higherOccurrences.push({ char: "", occurrences: 0 });
+            bestCandidates[i] = {};
+            for (var j = 0; j < alphabet_1.Alphabet.letters.length; j++) {
+                charOccurrences[i][alphabet_1.Alphabet.letters[j]] = 0;
+            }
         }
-        // Transforma o texto em várias subStrings do tamanho de keyLength
+        // Preenche as ocorrências de cada caracter para cada letra da chave
         for (var i = 0; i < text.length; i++) {
             var char = text.charAt(i);
-            var pos = i % keyLength;
-            // subString += char;
-            // if (i % keyLength == keyLength - 1) {
-            //     subStrings.push(subString);
-            //     subString = "";
-            // }
-            if (charOccurrences[pos][char] == null) {
-                charOccurrences[pos][char] = 1;
-            }
-            else {
-                charOccurrences[pos][char]++;
-            }
+            charOccurrences[i % keyLength][char]++;
         }
-        console.log(text.length);
-        for (var i = 0; i < charOccurrences.length; i++) {
-            for (var char in charOccurrences[i]) {
-                var occurrences = charOccurrences[i][char];
-                if (occurrences > (text.length * 0.01)) {
-                    console.log("char: " + char + ", count: " + charOccurrences[i][char]);
+        var totalLetters = text.length / keyLength;
+        var langFrequencies = letter_frequencies_1.LetterFrequencies.portuguese;
+        for (var i = 0; i < keyLength; i++) {
+            var keyPos = charOccurrences[i];
+            // j irá agir como o deslocamento para cada letra do alfabeto
+            for (var j = 0; j < alphabet_1.Alphabet.alphabetLength; j++) {
+                var difference = 0;
+                for (var char in keyPos) {
+                    // Frequência que aparece o caracter nessa posição da chave pelo texto
+                    var freq = keyPos[char] / totalLetters * 100;
+                    var shiftedChar = alphabet_1.Alphabet.getLetterForNumber((j) % alphabet_1.Alphabet.alphabetLength);
+                    // Frequência que aparece o caracter na língua portuguesa
+                    var langFreq = langFrequencies[shiftedChar];
+                    difference += Math.abs(freq - langFreq);
                 }
-                if (higherOccurrences[i].occurrences < occurrences) {
-                    higherOccurrences[i] = { char: char, occurrences: occurrences };
+                if (difference < 20) {
+                    bestCandidates[i][alphabet_1.Alphabet.getLetterForNumber(j)] = difference;
                 }
             }
-            console.log();
         }
-        console.log(higherOccurrences);
-        for (var i = 0; i < higherOccurrences.length; i++) {
-            var char = higherOccurrences[i].char;
-            console.log(alphabet_1.Alphabet.getLetterForNumber(alphabet_1.Alphabet.alphabetLength - alphabet_1.Alphabet.getNumberForLetter(char)));
-        }
+        console.log(bestCandidates);
     };
     return KeyFinder;
 }());
