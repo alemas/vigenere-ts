@@ -65,7 +65,7 @@ var KeyLengthFinder = /** @class */ (function () {
         for (var gcd in distances) {
             result.push({ length: +gcd, chance: distances[gcd] });
         }
-        return result.sort(function (d1, d2) { return d2.chance - d1.chance; }).filter(function (d) { return d.chance > 10; });
+        return result.sort(function (d1, d2) { return d2.chance - d1.chance; }).filter(function (d) { return d.chance > 2; });
     };
     // Encontra o máximo divisor comum entre 2 valores
     KeyLengthFinder.greatestCommonDivisor = function (a, b) {

@@ -40,8 +40,8 @@ var KeyFinder = /** @class */ (function () {
                     var langFreq = langFrequencies[shiftedChar];
                     difference += Math.abs(freq - langFreq);
                 }
-                if (difference < 20) {
-                    var decodedLetter = Math.abs(j - 26);
+                if (difference < 50) {
+                    var decodedLetter = Math.abs(j - 26) % 26;
                     bestCandidates[i][alphabet_1.Alphabet.getLetterForNumber(decodedLetter)] = difference;
                 }
             }

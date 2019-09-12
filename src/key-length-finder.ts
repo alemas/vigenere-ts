@@ -92,7 +92,7 @@ export class KeyLengthFinder {
             result.push({length: +gcd, chance:distances[gcd]});
         }
 
-        return result.sort((d1, d2) => d2.chance - d1.chance).filter(d => d.chance > 10);
+        return result.sort((d1, d2) => d2.chance - d1.chance).filter(d => d.chance > 2);
     }
 
     // Encontra o máximo divisor comum entre 2 valores

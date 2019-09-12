@@ -3,7 +3,7 @@ import { LetterFrequencies } from "./letter-frequencies";
 
 export class KeyFinder {
 
-    public static findKey(text: string, keyLength: number) {
+    public static findKey(text: string, keyLength: number): {[char: string]: number}[] {
 
         // Array de dicionários onde cada posição representa uma letra da chave
         // e cada dicionário representa o número de ocorrências de cada caracter
@@ -13,7 +13,8 @@ export class KeyFinder {
         // letra da chave
         let bestCandidates:{[char: string]: number}[] = [];
 
-        // Inicia charOccurrences com todas letras e número de ocorrências em 0
+        // Inicia charOccurrences com todas letras e número de ocorrências em 0 e
+        // inicia bestCandidates com dicionários vazios
         for (let i = 0; i < keyLength; i++) {
             charOccurrences[i] = {};
             bestCandidates[i] = {};
@@ -28,13 +29,20 @@ export class KeyFinder {
             charOccurrences[i % keyLength][char]++;
         }
 
+        // Número total de characteres que cada letra da chave cifrou
         let totalLetters = text.length/keyLength;
+
+        // Array com as frequências de cada letra na língua portuguesa
         const langFrequencies = LetterFrequencies.portuguese;
 
+        // Para cada letra da chave
         for (let i = 0; i < keyLength; i++) {
+            // 
             let keyPos = charOccurrences[i];
-            // j irá agir como o deslocamento para cada letra do alfabeto
+            
+            // j serve como o deslocamento para cada letra do alfabeto
             for (let j = 0; j < Alphabet.alphabetLength; j++) {
+                // Representa a soma de diferenças entre
                 let difference = 0;
                 for (const char in keyPos) {
                     // Frequência que aparece o caracter nessa posição da chave pelo texto
@@ -47,16 +55,15 @@ export class KeyFinder {
                     difference += Math.abs(freq - langFreq);
                 }
 
-                if (difference < 20) {
-                    let decodedLetter = Math.abs(j - 26);
+                // 50 foi um valor arbitrário definido após vários testes com textos de tamanhos diferentes
+                if (difference < 50) {
+                    let decodedLetter = Math.abs(j - 26) % 26;
                     bestCandidates[i][Alphabet.getLetterForNumber(decodedLetter)] = difference;
                 }
             }
 
         }
-
-        console.log(bestCandidates);
-
+        return bestCandidates;
     }
 
 }
