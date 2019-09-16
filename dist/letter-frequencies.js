@@ -1,4 +1,6 @@
 "use strict";
+// Classe responsável por fornecer as frequências dos caracteres presentes em cada língua.
+// TODO - Adicionar suporte a mais línguas
 Object.defineProperty(exports, "__esModule", { value: true });
 var LetterFrequencies = /** @class */ (function () {
     function LetterFrequencies() {
