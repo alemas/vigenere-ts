@@ -3,8 +3,9 @@ import { LetterFrequencies } from "./letter-frequencies";
 
 // Classe responsável por encontrar os caracteres mais prováveis da chave.
 // O texto é dividido em x partes, sendo x o tamanho da chave, e em cada parte
-// é feita uma comparação de frequência dos caracteres com as frequências da
-// língua portuguesa
+// estão todos os caracteres cifrados pela mesma letra da chave. É
+// feita uma comparação de frequência dos caracteres com as frequências da
+// língua portuguesa e define-se então qual chave foi usada
 
 export class KeyFinder {
 
@@ -16,13 +17,13 @@ export class KeyFinder {
 
         // Array para guardar os melhores cadidatos para cada
         // letra da chave
-        let bestCandidates:{[char: string]: number}[] = [];
+        let candidates:{[char: string]: number}[] = [];
 
         // Inicia charOccurrences com todas letras e número de ocorrências em 0 e
         // inicia bestCandidates com dicionários vazios
         for (let i = 0; i < keyLength; i++) {
             charOccurrences[i] = {};
-            bestCandidates[i] = {};
+            candidates[i] = {};
             for (let j = 0; j < Alphabet.letters.length; j++) {
                 charOccurrences[i][Alphabet.letters[j]] = 0;
             }
@@ -42,7 +43,7 @@ export class KeyFinder {
 
         // Para cada letra da chave
         for (let i = 0; i < keyLength; i++) {
-            // Dicionário contendo as ocorrências de cada caracter naquela letra
+            // Dicionário contendo as ocorrências de cada caracter naquela letra da chave
             let keyPos = charOccurrences[i];
             
             // Calcula-se a frequência de cada caracter naquela parte do texto e compara-se com as frequências de
@@ -68,11 +69,11 @@ export class KeyFinder {
                 // 50 foi um valor arbitrário definido após vários testes com textos de tamanhos diferentes
                 if (difference < 50) {
                     let decodedLetter = Math.abs(j - Alphabet.alphabetLength) % Alphabet.alphabetLength;
-                    bestCandidates[i][Alphabet.getLetterForNumber(decodedLetter)] = difference;
+                    candidates[i][Alphabet.getLetterForNumber(decodedLetter)] = difference;
                 }
             }
         }
-        return bestCandidates;
+        return candidates;
     }
 
 }

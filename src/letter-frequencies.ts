@@ -1,3 +1,6 @@
+// Classe responsável por fornecer as frequências dos caracteres presentes em cada língua.
+// TODO - Adicionar suporte a mais línguas
+
 export class LetterFrequencies {
 
     static readonly portuguese: {[char: string]: number} = 

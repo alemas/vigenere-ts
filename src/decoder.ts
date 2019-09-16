@@ -1,5 +1,7 @@
 import { Alphabet } from "./alphabet";
 
+// Classe responsável por decodificar um texto cifrado com cifra de Vigénere
+
 export class Decoder {
 
     // Retorna o texto decodificado com a chave informada.

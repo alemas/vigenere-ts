@@ -16,18 +16,20 @@ fs.readdirSync("./data/").forEach(function (filename) {
 var chosenIndex = readline.question("\nDigite o índice do arquivo a ser decifrado " + "[0.." + (cipherTextFiles.length - 1) + "]: ");
 var cipherText = file_reader_1.FileReader.readFile("./data/" + cipherTextFiles[chosenIndex]).toLowerCase();
 console.log("\nOs possíveis tamanhos de chave encontrados foram:");
-console.log("(Tamanho de chave - Número de vezes que foi encontrado como intervalo entre subStrings do texto)");
+console.log("(Tamanho de chave - Número de vezes que foi encontrado como mdc entre subStrings do texto)");
 // Busca os tamanhos de chave possíveis
 var candidates = key_length_finder_1.KeyLengthFinder.findKeyLengh(cipherText);
 for (var _i = 0, candidates_1 = candidates; _i < candidates_1.length; _i++) {
     var c = candidates_1[_i];
-    console.log(c.length + " - " + c.chance);
+    console.log(c.length + " - " + c.count);
 }
 var keyLength = readline.question("\nEscolha o tamanho de chave que deseja explorar: ");
 keyLength = +keyLength;
+// Busca as possíveis chaves
 var keyCandidates = key_finder_1.KeyFinder.findKey(cipherText, keyLength);
 for (var i = 0; i < keyLength; i++) {
     console.log(i + ": " + Object.keys(keyCandidates[i]));
 }
 var key = readline.question("\nDigite a chave que deseja usar para decifrar o texto: ");
+// Decodifica os primeiros 200 caracteres do texto com a chave
 console.log("\n" + decoder_1.Decoder.decode(cipherText, key, 200));

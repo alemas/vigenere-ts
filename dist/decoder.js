@@ -1,7 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var alphabet_1 = require("./alphabet");
-var Decoder = (function () {
+// Classe responsável por decodificar um texto cifrado com cifra de Vigénere
+var Decoder = /** @class */ (function () {
     function Decoder() {
     }
     // Retorna o texto decodificado com a chave informada.

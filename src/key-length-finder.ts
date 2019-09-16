@@ -1,16 +1,21 @@
 // Estrutura de dados para contar as ocorrências de cada palavra repetida no texto.
-// value sendo a palavra e positions os locais que elas aparecem/
+// value sendo a palavra e positions os locais que elas aparecem.
 interface SubString {
     value: string;
     positions: number[];
 }
 
 // Estrutura de dados para representar as possibilidades de tamanho de chave encontradas.
-// length sendo o tamanho e chance o número de ocorrências que foi encontradas entre as palavras analisadas.
+// length sendo o tamanho e count o número de ocorrências que foi encontradas entre as palavras analisadas.
 interface KeyLengthCandidate {
     length: number;
-    chance: number;
+    count: number;
 }
+
+// Classe responsável por encontrar os melhores candidatos de tamanho de chave.
+// Separa o texto em substrings de 3 e 4 caracteres, e então calcula o máximo divisor comum
+// entre as posições de substrings iguais. Os valores que mais se repetirem se tornam
+// candidatos.
 
 export class KeyLengthFinder {
 
@@ -26,7 +31,8 @@ export class KeyLengthFinder {
         // Ordena as substrings por ocorrência
         subStrings = subStrings.sort((s1, s2) => s2.positions.length - s1.positions.length);
 
-        return KeyLengthFinder.findSubStringsDistances(subStrings);
+        // Calcula o máximo divisor comum entre as posições das substrings repetidas
+        return KeyLengthFinder.findSubStringsMDCs(subStrings);
     }
 
     // Método que busca e conta palavras repetidas no texto.
@@ -39,6 +45,7 @@ export class KeyLengthFinder {
         // Dicionário com chave string e valor SubString para guardar cada subString e suas posições
         let subStrings:{[subString: string] : SubString} = {};
 
+        // Preenche subStrings com as subStrings do texto juntamente com suas posições
         for (let i = 0; i < text.length; i++) {
             s += text.charAt(i);
             if (s.length == subStringSize) {
@@ -63,37 +70,40 @@ export class KeyLengthFinder {
         return result;
     }
 
-    // Método que procura pelo intervalo de caracteres entre cada uma das subStrings encontradas
-    private static findSubStringsDistances(subStrings: SubString[]): KeyLengthCandidate[] {
+    // Método que procura pelos mdcs entre as posições das subStrings repetidas
+    private static findSubStringsMDCs(subStrings: SubString[]): KeyLengthCandidate[] {
 
-        // Dicionário para armazenar distâncias e número de ocorrências de cada uma delas
-        let distances: {[distance: number]: number} = {};
+        // Dicionário para armazenar as ocorrências de cada mdc encontrado
+        let gcds: {[distance: number]: number} = {};
 
         // Percorre as subStrings encontradas
         for (let i = 0; i < subStrings.length; i++) {
             let positions = subStrings[i].positions;
 
-            // Calcula e guarda o GCD (Greatest Common Divisor) de todas posições com todas
+            // Calcula e guarda o GCD (Greatest Common Divisor) de todas posições com todas posições
+            // da mesma subString
             for (let j = 0; j < positions.length; j++) {
                 for (let k = j+1; k < positions.length; k++) {
                     let gcd = KeyLengthFinder.greatestCommonDivisor(positions[j], positions[k]);
-                    if (distances[gcd] == null) {
-                        distances[gcd] = 1;
+                    if (gcds[gcd] == null) {
+                        gcds[gcd] = 1;
                     } else {
-                        distances[gcd]++;
+                        gcds[gcd]++;
                     }
                 }
             }
         }
 
-        let result: KeyLengthCandidate[] = [];
+        // Array com os candidatos
+        let candidates: KeyLengthCandidate[] = [];
 
-        for (const gcd in distances) {
-            result.push({length: +gcd, chance:distances[gcd]});
+        //Transforma o dicionário em um array de candidatos
+        for (const gcd in gcds) {
+            candidates.push({length: +gcd, count:gcds[gcd]});
         }
 
         // Retorna os 5 melhores candidatos para tamanho de chave
-        return result.sort((d1, d2) => d2.chance - d1.chance).filter(d => d.chance > 10).slice(0, 4);
+        return candidates.sort((d1, d2) => d2.count - d1.count).slice(0, 5);
     }
 
     // Encontra o máximo divisor comum entre 2 valores

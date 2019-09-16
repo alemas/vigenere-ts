@@ -20,18 +20,19 @@ const chosenIndex = readline.question("\nDigite o índice do arquivo a ser decif
 let cipherText:string = FileReader.readFile("./data/" + cipherTextFiles[chosenIndex]).toLowerCase();
 
 console.log("\nOs possíveis tamanhos de chave encontrados foram:");
-console.log("(Tamanho de chave - Número de vezes que foi encontrado como intervalo entre subStrings do texto)");
+console.log("(Tamanho de chave - Número de vezes que foi encontrado como mdc entre subStrings do texto)");
 
 // Busca os tamanhos de chave possíveis
 let candidates = KeyLengthFinder.findKeyLengh(cipherText);
 
 for (const c of candidates) {
-    console.log(c.length + " - " + c.chance);
+    console.log(c.length + " - " + c.count);
 }
 
 let keyLength = readline.question("\nEscolha o tamanho de chave que deseja explorar: ");
 keyLength = +keyLength;
 
+// Busca as possíveis chaves
 const keyCandidates = KeyFinder.findKey(cipherText, keyLength);
 
 for (let i = 0; i < keyLength; i++) {
@@ -39,4 +40,6 @@ for (let i = 0; i < keyLength; i++) {
 }
 
 let key = readline.question("\nDigite a chave que deseja usar para decifrar o texto: ");
+
+// Decodifica os primeiros 200 caracteres do texto com a chave
 console.log("\n" + Decoder.decode(cipherText, key, 200));
